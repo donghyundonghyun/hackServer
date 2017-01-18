@@ -11,4 +11,9 @@ class Myserver extends CI_Controller {
 		echo json_encode($this->oj_model->getOries());
 	}
 	
+	function getInfo($ID){
+		echo json_encode($this->oj_model->getInfo($ID));
+	}
+	
+	
 }
