@@ -7,7 +7,7 @@ class Oj_model extends CI_Model {
 	}
 
 	public function getOries(){
-		return $this->db->query('SELECT ID,lon,lat,alt FROM oriLocation')->result();
+		return $this->db->query('SELECT ID,lon,lat,alt,name FROM oriLocation')->result();
 	}
 
 	public function getInfo($id){
