@@ -4,32 +4,30 @@ class Myserver extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('oj_model');
+		$this->load->model('ori_model');
 	}
 
-	function getOries(){
-		echo json_encode($this->oj_model->getOries());
-	}
-	
-	function getInfo($ID){
-		echo json_encode($this->oj_model->getInfo($ID));
-	}
-	
-	function nearbyOries($lat, $lon){
-		$ories = $this->oj_model->getOries();
-
-		$nearby = array();
-		$i = 0;
+	//모든 오리 정보를 가져온다. ID, lon, lat, alt, name, distance, near
+	function getAllOries($lat, $lon) {
+		$ories = $this->ori_model->getAllOries();
 		foreach($ories as $ori){
-			if($this->getDistance($lat, $lon, $ori->lat, $ori->lon)*100 < 20.0)
-				$nearby[$i++] = $ori;
+			if(($ori->distance = $this->getDistance($lat, $lon, $ori->lat, $ori->lon)) < 30.0)
+				$ori->near = 1;
+			else
+				$ori->near = 0;
 		}
-
-		echo json_encode($nearby);	
-		//var_dump($nearby);
-		
+		echo json_encode($ories);
 	}
+	
+	//해당 오리의 정보를 전부 가져옴 ID, lon, lat, alt, name, tel, addr, info, etc, facility
+	function getOriInfo($ID){
+		echo json_encode($this->ori_model->getInfo($ID));
+	}
+	
 
+
+
+	//단위 : meter
 	function getDistance($lat1, $lng1, $lat2, $lng2){
 	    $earth_radius = 6371;
 	    $dLat = deg2rad($lat2 - $lat1);
@@ -37,7 +35,7 @@ class Myserver extends CI_Controller {
 	    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon/2) * sin($dLon/2);
 	    $c = 2 * asin(sqrt($a));
 	    $d = $earth_radius * $c;
-	    return $d;
+	    return $d*1000;
 	}
 	
 }
