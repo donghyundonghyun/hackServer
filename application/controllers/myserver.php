@@ -19,7 +19,7 @@ class Myserver extends CI_Controller {
 		echo json_encode($ories);
 	}
 	
-	//해당 오리의 정보를 전부 가져옴 ID, lon, lat, alt, name, tel, addr, info, etc, facility
+	//해당 오리의 정보를 전부 가져옴 ID, lon, lat, alt, name, tel, addr, info, etc, facility, img_path
 	function getOriInfo($ID){
 		echo json_encode($this->ori_model->getInfo($ID));
 	}
