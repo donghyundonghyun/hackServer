@@ -19,6 +19,15 @@ class Myserver extends CI_Controller {
 			if($ori->distance <= 30.0)
 			    $ori->near = 1;
 		}
+
+		usort($ories, function($a, $b){
+		    if($a->distance == $b->distance)
+		        return 0;
+		    if($a->distance > $b->distance)
+		        return 1;
+		    if($a->distance < $b->distance)
+		        return -1;
+        });
 		echo json_encode($ories);
 	}
 	
