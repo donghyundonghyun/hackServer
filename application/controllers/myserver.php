@@ -11,10 +11,13 @@ class Myserver extends CI_Controller {
 	function getAllOries($lat, $lon) {
 		$ories = $this->ori_model->getAllOries();
 		foreach($ories as $ori){
-			if(($ori->distance = $this->getDistance($lat, $lon, $ori->lat, $ori->lon)) < 30.0)
-				$ori->near = 1;
-			else
-				$ori->near = 0;
+            $ori->near = 0;
+
+			if(($ori->distance = $this->getDistance($lat, $lon, $ori->lat, $ori->lon)) <= 100.0)
+				$ori->near = 2;
+
+			if($ori->distance <= 30.0)
+			    $ori->near = 1;
 		}
 		echo json_encode($ories);
 	}
